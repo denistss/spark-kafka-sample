@@ -1,0 +1,1 @@
+docker exec -it spark /opt/bitnami/spark/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 /home/workspace/spark_consumer_from_kafka.py \ /home/workspace/spark_consumer_from_kafka.py > eventstream.log 
