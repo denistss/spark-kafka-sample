@@ -24,3 +24,15 @@ docker exec -it kafka_broker kafka-console-consumer --bootstrap-server localhost
 Finish Containers
 - run docker-compose down
 ```
+
+## Run Spark Consumer
+
+```
+docker exec -it spark /opt/bitnami/spark/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 /home/workspace/spark_consumer_from_kafka.py \ /home/workspace/spark_consumer_from_kafka.py > eventstream.log 
+```
+
+## Utils
+get docker container IP
+```
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <container-name-in-docker-compose>
+```

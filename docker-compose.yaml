@@ -41,7 +41,7 @@ services:
   
   # Add
   spark:
-    image: docker.io/bitnami/spark:3-debian-10
+    image: extending_spark:latest #docker.io/bitnami/spark:3-debian-10
     container_name: spark
     environment:
       - SPARK_MODE=master
@@ -56,7 +56,7 @@ services:
       - ./spark/jars:/opt/bitnami/spark/.ivy2 
 
   spark-worker-1:
-    image: docker.io/bitnami/spark:3-debian-10
+    image: extending_spark:latest
     container_name: spark-worker-1
     environment:
       - SPARK_MODE=worker
@@ -70,3 +70,23 @@ services:
     volumes:
       - ./:/home/workspace/
       - ./spark/jars:/opt/bitnami/spark/.ivy2
+    
+  minio:
+    image: quay.io/minio/minio:RELEASE.2023-04-13T03-08-07Z
+    container_name: my-minio-server
+    command: server --console-address ":9001" /data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - './minio-data:/data'
+    env_file:
+      - .env
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3

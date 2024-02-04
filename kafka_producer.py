@@ -32,7 +32,7 @@ def receipt(err,msg):
 print('Kafka Producer has been initiated...')
 
 def main():
-    for i in range(10):
+    for i in range(3):
         data={
            'user_id': fake.random_int(min=20000, max=100000),
            'user_name':fake.name(),
@@ -44,7 +44,7 @@ def main():
         p.poll(1)
         p.produce('user-tracker',m.encode('utf-8'),callback=receipt)
         p.flush()
-        time.sleep(3)
+        # time.sleep(1)
         
 if __name__ == '__main__':
     main()
